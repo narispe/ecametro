@@ -9,17 +9,15 @@ def leer_info(archivo, margen):
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
-    
     with open(archivo, "a") as doc:
         pass
-    
     with open(archivo, "r", encoding="UTF-8") as doc:
         info = doc.readlines()
+
     cursos = []
     if len(info) > 1:
         sets = info[0].strip().split(";")
         sets[3] = int(sets[3])
-
         for linea in info[1:]:
             ramo = linea.strip().split(":")
             act = ramo[1].split(";")
@@ -29,11 +27,11 @@ def leer_info(archivo, margen):
             cursos.append([ramo[0], act])
 
     else:
-
         print(f"\tBIENVENIDO A ECAMETRO\n{margen}Comienza ingresando tus ramos y sus actividades")
         sets, cursos = ["BIENVENIDO", " ", "FIN", 1], config_ramos(margen)
         save(archivo, sets, cursos)
         print(f"{margen} Ahora ya puedes empezar a usar ecametro\n")
+        
     return sets, cursos
 
 
@@ -49,30 +47,27 @@ def save(archivo, sets, cursos):
         doc.write(info)
 
 
-def show_time(d, cursos, margen, indent=False):
+def show_time(decim, cursos, margen):
     show = []
-    len_name, hrs_total, mins_total = [], 0, 0
+    len_name, hrs_total, mins_total = [5], 0, 0
     for ramo in cursos:
         len_name.append(len(ramo[0]))
-        hrs_total += round(ramo[1]/60, d)
+        hrs_total += round(ramo[1]/60, decim)
         mins_total += ramo[1]
 
-    hrs_total, mins_total = str(round(hrs_total, d)), str(mins_total)
-    hrs_total += "0" * (d+2 - len(hrs_total))
+    hrs_total, mins_total = str(round(hrs_total, decim)), str(mins_total)
+    hrs_total += "0" * (decim+2 - len(hrs_total))
     fill_hrs, fill_mins = len(hrs_total), len(mins_total)
     fill_name = max(len_name)
-    if indent:
-        margen += "\t"
+    margen += "\t"
 
     for ramo in cursos:
         name = ramo[0]
         mins = str(ramo[1])
-        hrs = str(round(int(mins)/60, d))
-        hrs += "0" * (d+2 - len(hrs))
-        show.append(margen + name.rjust(fill_name) + ":\t" + hrs.rjust(fill_hrs) +
-                    " horas  ||  " + mins.rjust(fill_mins) + " minutos")
-    show.append(margen + "TOTAL".rjust(fill_name) + ":\t" + hrs_total.rjust(fill_hrs) +
-                " horas  ||  " + mins_total.rjust(fill_mins) + " minutos")
+        hrs = str(round(int(mins)/60, decim))
+        hrs += "0" * (decim+2 - len(hrs))
+        show.append(margen + name.rjust(fill_name) + ":    " + hrs.rjust(fill_hrs) + " horas  ||  " + mins.rjust(fill_mins) + " minutos")
+    show.append(margen + "TOTAL".rjust(fill_name) + ":    " + hrs_total.rjust(fill_hrs) + " horas  ||  " + mins_total.rjust(fill_mins) + " minutos")
 
     return ("\n".join(show))
 
@@ -114,7 +109,7 @@ def config_ramos(margen):
 def estudiar(cursos, mensaje, margen):
     print(f"{margen}¿Cuál ramo vas a estudiar?")
     id_ramo = eleccion(cursos,margen)
-    if id_ramo > 0:
+    if id_ramo > -1:
         ramo = cursos[id_ramo]
         print(f"{margen}¿Qué actividad vas a realizar?")
         id_actividad = eleccion(ramo[1],margen)
@@ -124,3 +119,16 @@ def estudiar(cursos, mensaje, margen):
             input(f"\n{margen}Estudiando {actividad[0]} de {ramo[0]}...\n{margen}{mensaje}\n{margen}Presiona ENTER cuando termines\t")
             t_final = time.time()
             actividad[1] += round((t_final-t_inicio)/60)
+
+def tiempo_manualmente(cursos, margen):
+    print(f"{margen}\n{margen}Selecciona el ramo   0->Cancelar")
+    id_ramo = eleccion(cursos, margen)
+    if id_ramo > -1:
+        ramo = cursos[id_ramo]
+        actividades = ramo[1]
+        print(f"{margen}Elige una actividad   0->Cancelar")
+        id_actividad = eleccion(ramo[1], margen)
+        if id_actividad > -1:
+            actividad = actividades[id_actividad]
+            actividad[1] += int(input(f"{margen}Minutos a añadir: "))
+            print(f"{margen}Adición exitosa")    

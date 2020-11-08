@@ -15,11 +15,11 @@
 
 import func_eca as func
 archivo = "data//informacion.txt"
-margenes = " "
+margenes = ""
 mg = margenes
 
 sets, cursos = func.leer_info(archivo, mg)
-print(f"\t{sets[0]}\n")
+print(f"{sets[0].center(60)}\n")
 menu = func.verify(f"{mg}1->Temporizar   2->Mostrar   3->Exit   4->Reset   0->Configurar\n{mg}: ", f"{mg}Debes seleccionar una de las opciones: ", 0, 4)
 while menu != 3:
 
@@ -37,7 +37,7 @@ while menu != 3:
                 if id_ramo > -1:
                     ramo = cursos[id_ramo]
                     print(f"\n{mg}{ramo[0]}")
-                    print(func.show_time(sets[3], ramo[1], mg, indent=True))
+                    print(func.show_time(sets[3], ramo[1], mg))
             elif op == 2:
                 total = []
                 for ramo in cursos:
@@ -58,23 +58,13 @@ while menu != 3:
             print(f"{mg}Se han reseteado todos los tiempos")
 
     elif menu == 0:
-        mg = mg*3 + "| " 
-        config = func.verify(f"\n{mg}1->Añadir   2->Mensajes   3->Ramos   4->Decimales   0->Return\n{mg}: ", f"{mg}Debes seleccionar una de las opciones: ", 0, 4)
+        mg = mg + "\t|  " 
+        config = func.verify(f"\n{mg}0->Return\n{mg}1->Añadir tiempo\n{mg}2->Mensajes\n{mg}3->Decimales\n{mg}4->Ramos\n{mg}: ", f"{mg}Debes seleccionar una de las opciones: ", 0, 4)
         while config != 0:
 
             if config == 1:
                 if len(cursos) > 0:
-                    print(f"{mg}\n{mg}Elige el ramo al que quieres añadir tiempo manualmente   0->Cancelar")
-                    id_ramo = func.eleccion(cursos, mg)
-                    if id_ramo > -1:
-                        ramo = cursos[id_ramo]
-                        actividades = ramo[1]
-                        print(f"{mg}Elige una actividad del ramo   0->Cancelar")
-                        id_actividad = func.eleccion(ramo[1], mg)
-                        if id_actividad > -1:
-                            actividad = actividades[id_actividad]
-                            actividad[1] += int(input(f"{mg}Minutos a añadir: "))
-                            print(f"{mg}Adición exitosa")
+                    func.tiempo_manualmente(cursos, mg)
                 else:
                     print(f"{mg}No tienes ramos configurados")
 
@@ -85,22 +75,24 @@ while menu != 3:
                     print(f"{mg}Nuevo mensaje guardado exitosamente")
 
             elif config == 3:
+                decim = input(f"{mg}Ingresa la cantidad de decimales para las horas: ")
+                while not decim.isdigit() or int(decim)%1!=0 or int(decim)< 0:
+                    decim = input(f"{mg}Debes ingresar un número entero mayor o igual a 0: ")
+                sets[3] = int(decim)
+                print(f"{mg}Configuracion guardada")
+
+            elif config == 4:
                 confirmacion = func.verify(f"{mg}1->Confirmar  0->Cancelar\n{mg}: ", f"{mg}Selecciona una de las opciones: ", 0, 1)
                 if confirmacion == 1:
                     cursos = func.config_ramos(mg)
                     print(f"{mg}Ramos ingresados correctamente")
 
-            elif config == 4:
-                sets[3] = int(
-                    input(f"{mg}Ingresa la cantidad de decimales para las horas: "))
-                print(f"{mg}Configuracion guardada")
-
             func.save(archivo, sets, cursos)
-            config = func.verify(f"{mg}\n{mg}1->Añadir   2->Mensajes   3->Ramos   4->Decimales   0->Return\n{mg}: ", f"{mg}Debes seleccionar una de las opciones: ", 0, 4)
+            config = func.verify(f"\n{mg}0->Return\n{mg}1->Añadir tiempo\n{mg}2->Mensajes\n{mg}3->Decimales\n{mg}4->Ramos\n{mg}: ", f"{mg}Debes seleccionar una de las opciones: ", 0, 4)
 
         mg = margenes
 
     func.save(archivo, sets, cursos)
     menu = func.verify(f"\n{mg}1->Temporizar   2->Mostrar   3->Exit   4->Reset   0->Configurar\n{mg}: ", f"{mg}Debes seleccionar una de las opciones: ", 0, 4)
 
-input("\t " + sets[2])
+input(f"{sets[2].center(60)}\n")
