@@ -1,5 +1,5 @@
 # ECAmetro
-Este es una pequeño programa para ayudar a les estudiantes a tener un registro de su *Estimación de Carga Académica* semanal, tanto a nivel general como de cada ramo en especifico. Por ahora no tiene una interfaz gráfica y funciona a través de la consola del computador. La información de los tiempos y configuraciones se guardan dentro de la carpeta *data* en un archivo de texto.
+Este es una pequeño programa para ayudar a les estudiantes a tener un registro de su *Estimación de Carga Académica* semanal, tanto a nivel general como de cada ramo en especifico. Por ahora no tiene una interfaz gráfica y funciona a través de la terminal. La información de los tiempos y configuraciones se guardan dentro de la carpeta *data* en un archivo de texto.
 
 ## Descargar e iniciar
  Primero debes tener el repositorio. Puedes descargarlo como un archivo comprimido, o clonarlo si tienes git. Para usarlo existen dos opciones. 
