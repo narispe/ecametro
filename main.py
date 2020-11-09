@@ -20,7 +20,7 @@ mg = margenes
 
 sets, cursos = func.leer_info(archivo, mg)
 print(f"{sets[0].center(60)}\n")
-menu = func.verify(f"{mg}1->Temporizar   2->Mostrar   3->Exit   4->Reset   0->Configurar\n{mg}: ", f"{mg}Debes seleccionar una de las opciones: ", 0, 4)
+menu = func.verify(f"{mg}1->Cronometrar   2->Mostrar   3->Exit   4->Reset   0->Configurar\n{mg}: ", f"{mg}Debes seleccionar una de las opciones: ", 0, 4)
 while menu != 3:
 
     if menu == 1:
@@ -33,7 +33,7 @@ while menu != 3:
         if len(cursos) > 0:
             op = func.verify(f"{mg}1->Actividades de un ramo   2->Todos los ramos\n{mg}: ", f"{mg}Debes seleccionar una de las opciones: ", 0, 2)
             if op == 1:
-                id_ramo = func.eleccion(cursos, mg)
+                id_ramo = func.elegir(cursos, mg)
                 if id_ramo > -1:
                     ramo = cursos[id_ramo]
                     print(f"\n{mg}{ramo[0]}")
@@ -64,7 +64,7 @@ while menu != 3:
 
             if config == 1:
                 if len(cursos) > 0:
-                    func.tiempo_manualmente(cursos, mg)
+                    func.tiempo_manual(cursos, mg)
                 else:
                     print(f"{mg}No tienes ramos configurados")
 
@@ -88,11 +88,11 @@ while menu != 3:
                     print(f"{mg}Ramos ingresados correctamente")
 
             func.save(archivo, sets, cursos)
-            config = func.verify(f"\n{mg}0->Return\n{mg}1->Añadir tiempo\n{mg}2->Mensajes\n{mg}3->Decimales\n{mg}4->Ramos\n{mg}: ", f"{mg}Debes seleccionar una de las opciones: ", 0, 4)
+            config = func.verify(f"{mg}\n{mg}0->Return\n{mg}1->Añadir tiempo\n{mg}2->Mensajes\n{mg}3->Decimales\n{mg}4->Ramos\n{mg}: ", f"{mg}Debes seleccionar una de las opciones: ", 0, 4)
 
         mg = margenes
 
     func.save(archivo, sets, cursos)
-    menu = func.verify(f"\n{mg}1->Temporizar   2->Mostrar   3->Exit   4->Reset   0->Configurar\n{mg}: ", f"{mg}Debes seleccionar una de las opciones: ", 0, 4)
+    menu = func.verify(f"\n{mg}1->Cronometrar   2->Mostrar   3->Exit   4->Reset   0->Configurar\n{mg}: ", f"{mg}Debes seleccionar una de las opciones: ", 0, 4)
 
 input(f"{sets[2].center(60)}\n")

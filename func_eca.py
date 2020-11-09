@@ -80,7 +80,7 @@ def verify(mensaje_input, mensaje_error, minim, maxim=10):
     return valor
 
 
-def eleccion(lista, margen):
+def elegir(lista, margen):
     i = 0
     for linea in lista:
         print(f"{margen}{i+1}->{linea[0]}")
@@ -108,26 +108,26 @@ def config_ramos(margen):
 
 def estudiar(cursos, mensaje, margen):
     print(f"{margen}¿Cuál ramo vas a estudiar?")
-    id_ramo = eleccion(cursos,margen)
+    id_ramo = elegir(cursos,margen)
     if id_ramo > -1:
         ramo = cursos[id_ramo]
         print(f"{margen}¿Qué actividad vas a realizar?")
-        id_actividad = eleccion(ramo[1],margen)
+        id_actividad = elegir(ramo[1],margen)
         if id_actividad > -1:
             actividad = ramo[1][id_actividad]
             t_inicio = time.time()
-            input(f"\n{margen}Estudiando {actividad[0]} de {ramo[0]}...\n{margen}{mensaje}\n{margen}Presiona ENTER cuando termines\t")
+            input(f"\n{margen}En {actividad[0]} de {ramo[0]}...\n{margen}{mensaje}\n{margen}Presiona ENTER cuando termines\t")
             t_final = time.time()
             actividad[1] += round((t_final-t_inicio)/60)
 
-def tiempo_manualmente(cursos, margen):
+def tiempo_manual(cursos, margen):
     print(f"{margen}\n{margen}Selecciona el ramo   0->Cancelar")
-    id_ramo = eleccion(cursos, margen)
+    id_ramo = elegir(cursos, margen)
     if id_ramo > -1:
         ramo = cursos[id_ramo]
         actividades = ramo[1]
         print(f"{margen}Elige una actividad   0->Cancelar")
-        id_actividad = eleccion(ramo[1], margen)
+        id_actividad = elegir(ramo[1], margen)
         if id_actividad > -1:
             actividad = actividades[id_actividad]
             actividad[1] += int(input(f"{margen}Minutos a añadir: "))
