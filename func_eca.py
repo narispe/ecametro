@@ -55,17 +55,18 @@ def show_time(decim, cursos, margen):
         hrs_total += round(ramo[1]/60, decim)
         mins_total += ramo[1]
 
-    hrs_total, mins_total = str(round(hrs_total, decim)), str(mins_total)
-    hrs_total += "0" * (decim+2 - len(hrs_total))
-    fill_hrs, fill_mins = len(hrs_total), len(mins_total)
-    fill_name = max(len_name)
+
+    hrs_total, mins_total = round(hrs_total, decim), str(mins_total)
+    fill_decim_total = "0" * (decim-len(str(round(hrs_total%1,decim)))+2)
+    hrs_total = str(hrs_total) + fill_decim_total
+    fill_hrs, fill_mins, fill_name = len(hrs_total), len(mins_total), max(len_name)
     margen += "\t"
 
     for ramo in cursos:
-        name = ramo[0]
-        mins = str(ramo[1])
-        hrs = str(round(int(mins)/60, decim))
-        hrs += "0" * (decim+2 - len(hrs))
+        name, mins = ramo[0], str(ramo[1])
+        hrs = round(int(mins)/60, decim) 
+        fill_decim = "0" * (decim-len(str(round(hrs%1,decim)))+2)
+        hrs = str(hrs) + fill_decim
         show.append(margen + name.rjust(fill_name) + ":    " + hrs.rjust(fill_hrs) + " horas  ||  " + mins.rjust(fill_mins) + " minutos")
     show.append(margen + "TOTAL".rjust(fill_name) + ":    " + hrs_total.rjust(fill_hrs) + " horas  ||  " + mins_total.rjust(fill_mins) + " minutos")
 
